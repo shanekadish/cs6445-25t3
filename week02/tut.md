@@ -12,62 +12,48 @@ Press `s` in tutorial slides to open up tutorial notes.
 
 ---
 
-Report 1 has been released: https://webcms3.cse.unsw.edu.au/COMP6445/25T3/resources/116256 due October 12th. First step is to get Autopsy up and running on a Windows VM.┌──(shane㉿kali)-[~/cs6445-25t3/week02]
-└─$ dd if=/dev/zero of=disk.img bs=1M count=10
+Report 1 has been released: https://webcms3.cse.unsw.edu.au/COMP6445/25T3/resources/116256 due October 12th. First step is to get Autopsy up and running on a Windows VM.
+
+---
+
+"When a file is "deleted" using a FAT file system, the directory entry remains almost unchanged except for the first character of the file name, preserving most of the "deleted" file's name, along with its time stamp, file length and — most importantly — its physical location on the disk." -- https://en.wikipedia.org/wiki/Undeletion#FAT_file_systems
+
+## Demo: Find the remnants of a deleted file
+
+```
+# Create a 10MiB blank disk image
+$ dd if=/dev/zero of=disk.img bs=1M count=10
 10+0 records in
 10+0 records out
 10485760 bytes (10 MB, 10 MiB) copied, 0.00710028 s, 1.5 GB/s
-                                                                                                                                                           
-┌──(shane㉿kali)-[~/cs6445-25t3/week02]
-└─$ ls -l disk.img 
+$ ls -l disk.img 
 -rw-rw-r-- 1 shane shane 10485760 Sep 23 07:37 disk.img
-                                                                                                                                                           
-┌──(shane㉿kali)-[~/cs6445-25t3/week02]
-└─$ mkfs.vfat disk.img
+
+# Format the image as a FAT filesystem. FAT is commonly used on removable storage media (e.g. USBs) and some Windows systems.
+$ mkfs.vfat disk.img
 mkfs.fat 4.2 (2021-01-31)
-                                                                                                                                                           
-┌──(shane㉿kali)-[~/cs6445-25t3/week02]
-└─$ mkdir mnt         
-                                                                                                                                                           
-┌──(shane㉿kali)-[~/cs6445-25t3/week02]
-└─$ sudo mount -o loop disk.img mnt
-                                                                                                                                                           
-┌──(shane㉿kali)-[~/cs6445-25t3/week02]
-└─$ man bash   
-                                                                                                                                                           
-┌──(shane㉿kali)-[~/cs6445-25t3/week02]
-└─$ man bash
-                                                                                                                                                           
-┌──(shane㉿kali)-[~/cs6445-25t3/week02]
-└─$ sudo bash -c 'echo "THIS IS A TOP SECRET MESSAGE!" > mnt/secret.txt'
-                                                                                                                                                           
-┌──(shane㉿kali)-[~/cs6445-25t3/week02]
-└─$ cat mnt/secret.txt
+
+# Mount the disk image to a directory where we can add/remove files.
+# Files under mnt/ will be FAT-compliant (e.g. they will use `0xE5` to mark a directory entry as deleted: https://en.wikipedia.org/wiki/Design_of_the_FAT_file_system#Directory_entry)
+$ mkdir mnt
+$ sudo mount -o loop disk.img mnt
+
+# Create a file with a secret message under mnt/ and confirm that the contents get saved
+$ sudo bash -c 'echo "THIS IS A TOP SECRET MESSAGE!" > mnt/secret.txt'
+$ cat mnt/secret.txt
 THIS IS A TOP SECRET MESSAGE!
-                                                                                                                                                           
-┌──(shane㉿kali)-[~/cs6445-25t3/week02]
-└─$ rm mnt/secret.txt
-rm: remove write-protected regular file 'mnt/secret.txt'? y
-rm: cannot remove 'mnt/secret.txt': Permission denied
-                                                                                                                                                           
-┌──(shane㉿kali)-[~/cs6445-25t3/week02]
-└─$ sudo rm mnt/secret.txt
-                                                                                                                                                           
-┌──(shane㉿kali)-[~/cs6445-25t3/week02]
-└─$ unmount mnt
-Command 'unmount' not found, did you mean:
-  command 'umount' from deb mount
-Try: sudo apt install <deb name>
-                                                                                                                                                           
-┌──(shane㉿kali)-[~/cs6445-25t3/week02]
-└─$ umount mnt 
-umount: /home/shane/cs6445-25t3/week02/mnt: must be superuser to unmount.
-                                                                                                                                                           
-┌──(shane㉿kali)-[~/cs6445-25t3/week02]
-└─$ sudo umount mnt
-                                                                                                                                                           
-┌──(shane㉿kali)-[~/cs6445-25t3/week02]
-└─$ hexdump --canonical disk.img       
+
+# Delete the file
+$ sudo rm mnt/secret.txt
+
+# Unmount the mnt directory so that we can begin inspecting the disk image
+$ sudo umount mnt
+
+# Hexdump the entire disk image
+# Observe the boot sector in the first few bytes describing the FS type (FAT16 in this case) and other information
+# Observe that the first character of the filename (secret.txt) has been overwritten with `0xe5` which is the "Entry has been previously erased and/or is available" marker on FAT filesystems
+# Observe the deleted file contents
+$ hexdump --canonical disk.img
 00000000  eb 3c 90 6d 6b 66 73 2e  66 61 74 00 02 04 04 00  |.<.mkfs.fat.....|
 00000010  02 00 02 00 50 f8 14 00  20 00 02 00 00 00 00 00  |....P... .......|
 00000020  00 00 00 00 80 00 29 ed  b6 17 1b 4e 4f 20 4e 41  |......)....NO NA|
@@ -102,4 +88,18 @@ umount: /home/shane/cs6445-25t3/week02/mnt: must be superuser to unmount.
 0000a020  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
 *
 00a00000
+```
 
+## Demo: Recover the deleted file
+
+Note that `photorec` won't work here, because `photorec` carves out deleted files by searching the disk for file signatures (e.g. file signatures for PNG, PDF etc.) but the file we deleted was a plain text ASCII file, which doesn't have a signature. Other tools (e.g. The Sleuth Kit) can recover files based on the file metadata (e.g. the `0xE5` marker on directory entries in FAT filesystems).
+
+```
+# Show deleted files in disk.img using `fls` (part of The Sleuth Kit)
+$ fls -d disk.img
+r/r * 4: secret.txt
+
+# Display the contents of the deleted file with inode number 4 using `icat` (also part of The Sleuth Kit)
+$ icat disk.img 4
+THIS IS A TOP SECRET MESSAGE!
+```
