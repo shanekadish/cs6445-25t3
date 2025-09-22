@@ -102,4 +102,159 @@ r/r * 4: secret.txt
 # Display the contents of the deleted file with inode number 4 using `icat` (also part of The Sleuth Kit)
 $ icat disk.img 4
 THIS IS A TOP SECRET MESSAGE!
-```
+```┌──(shane㉿kali)-[~/cs6445-25t3/week02]
+└─$ cat USB_key.hash && md5sum USB_key.img
+88b0217001cb52f604fac3006137555d  USB_key.img
+88b0217001cb52f604fac3006137555d  USB_key.img
+                                                                                                                                                           
+┌──(shane㉿kali)-[~/cs6445-25t3/week02]
+└─$ hexdump --canonical USB_key.img | head
+00000000  eb 76 90 45 58 46 41 54  20 20 20 00 00 00 00 00  |.v.EXFAT   .....|
+00000010  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+*
+00000040  20 00 00 00 00 00 00 00  e0 63 07 00 00 00 00 00  | ........c......|
+00000050  80 00 00 00 00 02 00 00  80 02 00 00 2c ec 00 00  |............,...|
+00000060  06 00 00 00 0f d9 85 5c  00 01 02 00 09 03 01 80  |.......\........|
+00000070  57 00 00 00 00 00 00 00  f4 f4 f4 f4 f4 f4 f4 f4  |W...............|
+00000080  f4 f4 f4 f4 f4 f4 f4 f4  f4 f4 f4 f4 f4 f4 f4 f4  |................|
+*
+000001f0  f4 f4 f4 f4 f4 f4 f4 f4  f4 f4 f4 f4 f4 f4 55 aa  |..............U.|
+                                                                                                                                                           
+┌──(shane㉿kali)-[~/cs6445-25t3/week02]
+└─$ ls -l                                     
+total 254988
+-rw-rw-r-- 1 shane shane  10485760 Sep 23 07:44 disk.img
+-rw-rw-r-- 1 shane shane      5594 Sep 23 09:28 tut.md
+-rw-rw-r-- 1 shane shane        46 Sep 22 23:30 USB_key.hash
+-rw-rw-r-- 1 shane shane 250609664 Sep 22 23:30 USB_key.img
+                                                                                                                                                           
+┌──(shane㉿kali)-[~/cs6445-25t3/week02]
+└─$ mkdir usb_mnt                             
+                                                                                                                                                           
+┌──(shane㉿kali)-[~/cs6445-25t3/week02]
+└─$ sudo mount -t exfat USB_key.img usb_mnt 
+[sudo] password for shane: 
+                                                                                                                                                           
+┌──(shane㉿kali)-[~/cs6445-25t3/week02]
+└─$ ls -l usB_       
+ls: cannot access 'usB_': No such file or directory
+                                                                                                                                                           
+┌──(shane㉿kali)-[~/cs6445-25t3/week02]
+└─$ ls -l usb_mnt 
+total 208992
+-rwxr-xr-x 1 root root 1935092 Mar 11  2019  aaron-burden-160110-unsplash.jpg
+-rwxr-xr-x 1 root root 1049666 Mar 11  2019  andreas-gucklhorn-286746-unsplash.jpg
+-rwxr-xr-x 1 root root 5545084 Mar 11  2019  andrew-worley-299610-unsplash.jpg
+-rwxr-xr-x 1 root root 2712299 Mar 11  2019  byron-stumman-1194077-unsplash.jpg
+-rwxr-xr-x 1 root root 3634354 Mar 11  2019  carlos-hernandez-1133995-unsplash.jpg
+-rwxr-xr-x 1 root root 3864949 Mar 11  2019  charl-folscher-540836-unsplash.jpg
+-rwxr-xr-x 1 root root 7966255 Mar 11  2019  christopher-burns-189796-unsplash.jpg
+-rwxr-xr-x 1 root root 3037031 Mar 11  2019  clem-onojeghuo-218551-unsplash.jpg
+-rwxr-xr-x 1 root root 7036725 Mar 11  2019  clint-bustrillos-1365479-unsplash.jpg
+-rwxr-xr-x 1 root root 4748322 Mar 11  2019  cmdr-shane-610506-unsplash.jpg
+-rwxr-xr-x 1 root root 3715739 Mar 11  2019  curtis-macnewton-316895-unsplash.jpg
+-rwxr-xr-x 1 root root  473894 Mar 11  2019  daryn-stumbaugh-58483-unsplash.jpg
+-rwxr-xr-x 1 root root 3751935 Mar 11  2019  david-clode-527265-unsplash.jpg
+-rwxr-xr-x 1 root root 2839242 Mar 11  2019  eamonn-maguire-57074-unsplash.jpg
+-rwxr-xr-x 1 root root 2089506 Mar 11  2019  fabio-issao-123332-unsplash.jpg
+-rwxr-xr-x 1 root root 2992148 Mar 11  2019  fancycrave-252342-unsplash.jpg
+-rwxr-xr-x 1 root root 3515467 Mar 11  2019  fancycrave-264508-unsplash.jpg
+-rwxr-xr-x 1 root root 4412878 Mar 11  2019  fancycrave-310182-unsplash.jpg
+-rwxr-xr-x 1 root root 4045379 Mar 11  2019  fancycrave-391044-unsplash.jpg
+-rwxr-xr-x 1 root root 5072212 Mar 11  2019  fancycrave-494260-unsplash.jpg
+-rwxr-xr-x 1 root root 2200102 Mar 11  2019  filipe-resmini-1311491-unsplash.jpg
+-rwxr-xr-x 1 root root 1898410 Mar 11  2019  fredy-jacob-764477-unsplash.jpg
+-rwxr-xr-x 1 root root 3532293 Mar 11  2019  frida-bredesen-328727-unsplash.jpg
+-rwxr-xr-x 1 root root 3658768 Mar 11  2019  graphic-node-1360830-unsplash.jpg
+-rwxr-xr-x 1 root root 2727189 Mar 11  2019  heather-zabriskie-65701-unsplash.jpg
+-rwxr-xr-x 1 root root 1966102 Mar 11  2019  himesh-kumar-behera-327253-unsplash.jpg
+-rwxr-xr-x 1 root root 8649219 Mar 11  2019  ilinca-roman-1276314-unsplash.jpg
+-rwxr-xr-x 1 root root 4818558 Mar 11  2019  jabez-samuel-1329720-unsplash.jpg
+-rwxr-xr-x 1 root root 1474036 Mar 11  2019  jamie-street-206985-unsplash.jpg
+-rwxr-xr-x 1 root root 4002013 Mar 11  2019  jason-ortego-5383-unsplash.jpg
+-rwxr-xr-x 1 root root 6050649 Mar 11  2019  jeffrey-hamilton-571430-unsplash.jpg
+-rwxr-xr-x 1 root root 2264508 Mar 11  2019  jiri-sifalda-299258-unsplash.jpg
+-rwxr-xr-x 1 root root 7427969 Mar 11  2019  joao-silas-29233-unsplash.jpg
+-rwxr-xr-x 1 root root 3512363 Mar 11  2019  joel-jasmin-forestbird-595545-unsplash.jpg
+-rwxr-xr-x 1 root root 4576664 Mar 11  2019  josh-applegate-1414230-unsplash.jpg
+-rwxr-xr-x 1 root root 1428982 Mar 11  2019  joshua-earle-33443-unsplash.jpg
+-rwxr-xr-x 1 root root  805526 Mar 11  2019  kevin-ku-364843-unsplash.jpg
+-rwxr-xr-x 1 root root  763895 Mar 11  2019  leslie-holder-555818-unsplash.jpg
+-rwxr-xr-x 1 root root 3086738 Mar 11  2019  louis-tricot-1165630-unsplash.jpg
+-rwxr-xr-x 1 root root 4081084 Mar 11  2019  luther-bottrill-646018-unsplash.jpg
+-rwxr-xr-x 1 root root 4711498 Mar 11  2019  marija-zaric-1370544-unsplash.jpg
+-rwxr-xr-x 1 root root 1405736 Mar 11  2019  mario-purisic-52769-unsplash.jpg
+-rwxr-xr-x 1 root root 7221413 Mar 11  2019  markus-spiske-1423-unsplash.jpg
+-rwxr-xr-x 1 root root  178727 Mar 11  2019  matt-artz-353279-unsplash.jpg
+-rwxr-xr-x 1 root root 2036511 Mar 11  2019  matteo-vistocco-1201062-unsplash.jpg
+-rwxr-xr-x 1 root root 2718032 Mar 11  2019  matthew-kosloski-137750-unsplash.jpg
+-rwxr-xr-x 1 root root  801142 Mar 11  2019  matthew_t_rader-1141526-unsplash.jpg
+-rwxr-xr-x 1 root root 1496449 Mar 11  2019  mavis-cw-164128-unsplash.jpg
+-rwxr-xr-x 1 root root 2888740 Mar 11  2019  mikael-stenberg-1177524-unsplash.jpg
+-rwxr-xr-x 1 root root 2116319 Mar 11  2019  mr-cup-fabien-barral-86074-unsplash.jpg
+-rwxr-xr-x 1 root root 2850093 Mar 11  2019  nimish-chauhan-538714-unsplash.jpg
+-rwxr-xr-x 1 root root 3928250 Mar 11  2019  peter-hershey-125608-unsplash.jpg
+-rwxr-xr-x 1 root root 2699164 Mar 11  2019  ravi-n-jha-540497-unsplash.jpg
+-rwxr-xr-x 1 root root  674545 Mar 11  2019  rawpixel-1055774-unsplash.jpg
+-rwxr-xr-x 1 root root 4292757 Mar 11  2019  richard-payette-522432-unsplash.jpg
+-rwxr-xr-x 1 root root  176482 Aug 10  2020 'screen_shot (1).jpg'
+-rwxr-xr-x 1 root root 2150012 Mar 11  2019  thomas-martinsen-2158-unsplash.jpg
+-rwxr-xr-x 1 root root 3560819 Mar 11  2019  thomas-millot-462080-unsplash.jpg
+-rwxr-xr-x 1 root root 2642984 Mar 11  2019  tobias-tullius-1238848-unsplash.jpg
+-rwxr-xr-x 1 root root 6186742 Mar 11  2019  todd-quackenbush-701-unsplash.jpg
+-rwxr-xr-x 1 root root 3001823 Mar 11  2019  ulrich-pickert-659441-unsplash.jpg
+-rwxr-xr-x 1 root root 1753791 Mar 11  2019  vipul-uthaiah-1206340-unsplash.jpg
+-rwxr-xr-x 1 root root 4114433 Mar 11  2019  yash-raut-1096197-unsplash.jpg
+-rwxr-xr-x 1 root root 3774642 Mar 11  2019  yash-raut-1121691-unsplash.jpg
+-rwxr-xr-x 1 root root 3120591 Mar 11  2019  yu-kato-613711-unsplash.jpg
+                                                                                                                                                           
+┌──(shane㉿kali)-[~/cs6445-25t3/week02]
+└─$ open usb_mnt/yu-kato-613711-unsplash.jpg 
+                                                                                                                                                           
+┌──(shane㉿kali)-[~/cs6445-25t3/week02]
+└─$ photorec USB_key.img 
+PhotoRec 7.2, Data Recovery Utility, February 2024
+Christophe GRENIER <grenier@cgsecurity.org>
+https://www.cgsecurity.org
+                                                                                                                                                           
+┌──(shane㉿kali)-[~/cs6445-25t3/week02]
+└─$ ls -l photorec.se2 
+-rw-rw-r-- 1 shane shane 40960 Sep 23 09:38 photorec.se2
+                                                                                                                                                           
+┌──(shane㉿kali)-[~/cs6445-25t3/week02]
+└─$ ls -l recup_dir.1 
+total 85044
+-rw-rw-r-- 1 shane shane 1428982 Sep 23 09:38 f0263472.jpg
+-rw-rw-r-- 1 shane shane  805526 Sep 23 09:38 f0266264.jpg
+-rw-rw-r-- 1 shane shane  763895 Sep 23 09:38 f0267840.jpg
+-rw-rw-r-- 1 shane shane 3086738 Sep 23 09:38 f0273128.jpg
+-rw-rw-r-- 1 shane shane 4081084 Sep 23 09:38 f0279160.jpg
+-rw-rw-r-- 1 shane shane 4711498 Sep 23 09:38 f0287136.jpg
+-rw-rw-r-- 1 shane shane 1405736 Sep 23 09:38 f0296344.jpg
+-rw-rw-r-- 1 shane shane 7221413 Sep 23 09:38 f0299096.jpg
+-rw-rw-r-- 1 shane shane  178727 Sep 23 09:38 f0313208.jpg
+-rw-rw-r-- 1 shane shane 2036511 Sep 23 09:38 f0313560.jpg
+-rw-rw-r-- 1 shane shane  801142 Sep 23 09:38 f0317544.jpg
+-rw-rw-r-- 1 shane shane 2718032 Sep 23 09:38 f0319112.jpg
+-rw-rw-r-- 1 shane shane 1496449 Sep 23 09:38 f0324424.jpg
+-rw-rw-r-- 1 shane shane 2888740 Sep 23 09:38 f0327352.jpg
+-rw-rw-r-- 1 shane shane 2116319 Sep 23 09:38 f0333000.jpg
+-rw-rw-r-- 1 shane shane 2850093 Sep 23 09:38 f0337136.jpg
+-rw-rw-r-- 1 shane shane 3928250 Sep 23 09:38 f0342704.jpg
+-rw-rw-r-- 1 shane shane 2699164 Sep 23 09:38 f0350384.jpg
+-rw-rw-r-- 1 shane shane  674545 Sep 23 09:38 f0355656.jpg
+-rw-rw-r-- 1 shane shane 4292757 Sep 23 09:38 f0356976.jpg
+-rw-rw-r-- 1 shane shane 2150012 Sep 23 09:38 f0373760.jpg
+-rw-rw-r-- 1 shane shane 3560819 Sep 23 09:38 f0377960.jpg
+-rw-rw-r-- 1 shane shane 2642984 Sep 23 09:38 f0384920.jpg
+-rw-rw-r-- 1 shane shane 6186742 Sep 23 09:38 f0390088.jpg
+-rw-rw-r-- 1 shane shane 3001823 Sep 23 09:38 f0402176.jpg
+-rw-rw-r-- 1 shane shane 1753791 Sep 23 09:38 f0408040.jpg
+-rw-rw-r-- 1 shane shane 4114433 Sep 23 09:38 f0411472.jpg
+-rw-rw-r-- 1 shane shane 3774642 Sep 23 09:38 f0419512.jpg
+-rw-rw-r-- 1 shane shane 3120591 Sep 23 09:38 f0426888.jpg
+-rw-rw-r-- 1 shane shane 2355200 Sep 23 09:38 f0432984.apple
+-rw-rw-r-- 1 shane shane 4166903 Sep 23 09:38 f0437584.jpg
+-rw-rw-r-- 1 shane shane    7653 Sep 23 09:38 report.xml
+
+sudo umount usb_mnt
