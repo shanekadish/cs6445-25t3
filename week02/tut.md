@@ -102,11 +102,17 @@ r/r * 4: secret.txt
 # Display the contents of the deleted file with inode number 4 using `icat` (also part of The Sleuth Kit)
 $ icat disk.img 4
 THIS IS A TOP SECRET MESSAGE!
-```┌──(shane㉿kali)-[~/cs6445-25t3/week02]
+```
+
+# Find the deleted files stored in USB_key.img. Download here: https://unsw.sharepoint.com/sites/SecEDUForensics/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FSecEDUForensics%2FShared%20Documents%2FGeneral%2F2025%2Fdemos%2Ffile%20recovery&p=true&ga=1
+
+```
+┌──(shane㉿kali)-[~/cs6445-25t3/week02]
 └─$ cat USB_key.hash && md5sum USB_key.img
 88b0217001cb52f604fac3006137555d  USB_key.img
 88b0217001cb52f604fac3006137555d  USB_key.img
-                                                                                                                                                           
+
+# Check FS type and see that it's EXFAT
 ┌──(shane㉿kali)-[~/cs6445-25t3/week02]
 └─$ hexdump --canonical USB_key.img | head
 00000000  eb 76 90 45 58 46 41 54  20 20 20 00 00 00 00 00  |.v.EXFAT   .....|
@@ -119,26 +125,15 @@ THIS IS A TOP SECRET MESSAGE!
 00000080  f4 f4 f4 f4 f4 f4 f4 f4  f4 f4 f4 f4 f4 f4 f4 f4  |................|
 *
 000001f0  f4 f4 f4 f4 f4 f4 f4 f4  f4 f4 f4 f4 f4 f4 55 aa  |..............U.|
-                                                                                                                                                           
-┌──(shane㉿kali)-[~/cs6445-25t3/week02]
-└─$ ls -l                                     
-total 254988
--rw-rw-r-- 1 shane shane  10485760 Sep 23 07:44 disk.img
--rw-rw-r-- 1 shane shane      5594 Sep 23 09:28 tut.md
--rw-rw-r-- 1 shane shane        46 Sep 22 23:30 USB_key.hash
--rw-rw-r-- 1 shane shane 250609664 Sep 22 23:30 USB_key.img
-                                                                                                                                                           
+
 ┌──(shane㉿kali)-[~/cs6445-25t3/week02]
 └─$ mkdir usb_mnt                             
-                                                                                                                                                           
+
 ┌──(shane㉿kali)-[~/cs6445-25t3/week02]
 └─$ sudo mount -t exfat USB_key.img usb_mnt 
 [sudo] password for shane: 
-                                                                                                                                                           
-┌──(shane㉿kali)-[~/cs6445-25t3/week02]
-└─$ ls -l usB_       
-ls: cannot access 'usB_': No such file or directory
-                                                                                                                                                           
+
+# See non-deleted files
 ┌──(shane㉿kali)-[~/cs6445-25t3/week02]
 └─$ ls -l usb_mnt 
 total 208992
@@ -207,20 +202,16 @@ total 208992
 -rwxr-xr-x 1 root root 4114433 Mar 11  2019  yash-raut-1096197-unsplash.jpg
 -rwxr-xr-x 1 root root 3774642 Mar 11  2019  yash-raut-1121691-unsplash.jpg
 -rwxr-xr-x 1 root root 3120591 Mar 11  2019  yu-kato-613711-unsplash.jpg
-                                                                                                                                                           
+
 ┌──(shane㉿kali)-[~/cs6445-25t3/week02]
 └─$ open usb_mnt/yu-kato-613711-unsplash.jpg 
-                                                                                                                                                           
+
 ┌──(shane㉿kali)-[~/cs6445-25t3/week02]
 └─$ photorec USB_key.img 
 PhotoRec 7.2, Data Recovery Utility, February 2024
 Christophe GRENIER <grenier@cgsecurity.org>
 https://www.cgsecurity.org
-                                                                                                                                                           
-┌──(shane㉿kali)-[~/cs6445-25t3/week02]
-└─$ ls -l photorec.se2 
--rw-rw-r-- 1 shane shane 40960 Sep 23 09:38 photorec.se2
-                                                                                                                                                           
+
 ┌──(shane㉿kali)-[~/cs6445-25t3/week02]
 └─$ ls -l recup_dir.1 
 total 85044
@@ -258,3 +249,8 @@ total 85044
 -rw-rw-r-- 1 shane shane    7653 Sep 23 09:38 report.xml
 
 sudo umount usb_mnt
+```
+
+---
+
+# Autopsy demo
