@@ -104,6 +104,12 @@ $ icat disk.img 4
 THIS IS A TOP SECRET MESSAGE!
 ```
 
+---
+
+## Try overwrite file with zeroes and see if the old content is visible
+
+---
+
 # Find the deleted files stored in USB_key.img. Download here: https://unsw.sharepoint.com/sites/SecEDUForensics/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FSecEDUForensics%2FShared%20Documents%2FGeneral%2F2025%2Fdemos%2Ffile%20recovery&p=true&ga=1
 
 ```
