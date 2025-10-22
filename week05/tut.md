@@ -1,9 +1,5 @@
 `brew install wireshark wireshark-app`
 
-Show how to export packet bytes
-
-Show how to copy value
-
 Check bottom left on wireshark for filter when hovering over a value, e.g. tcp.sourceport
 
 * Open wireshark, show traffic graphs
