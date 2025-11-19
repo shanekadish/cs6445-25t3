@@ -1,0 +1,1 @@
+No tutorial material for this week, we just went over the sample exam. I've merged all of the lecture slides into a single PDF so that it's easier for you guys to CMD+F when studying. You can find that document here: https://drive.google.com/file/d/151qmJvppq4jt72r_ChHog7nwZ9KdgxFx/view?usp=sharing. Good luck for your exams!
